@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        .guitar-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .guitar-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+        }
+        .guitar-card img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Guitar List</h1>
+<div class="guitar-list" id="guitar-list"></div>
+
+<script>
+    async function fetchGuitars() {
+        try {
+            const response = await fetch('/guitars');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const guitars = await response.json();
+            displayGuitars(guitars);
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
+    }
+
+    function displayGuitars(guitars) {
+        const guitarList = document.getElementById('guitar-list');
+        guitarList.innerHTML = ''; // Clear previous content
+
+        guitars.forEach(guitar => {
+            const guitarCard = document.createElement('div');
+            guitarCard.className = 'guitar-card';
+            guitarCard.innerHTML = `
+                <img src="${guitar.imagePath}" alt="${guitar.brand} ${guitar.model}">
+                <h3>${guitar.brand} ${guitar.model}</h3>
+                <p>Year: ${guitar.year}</p>
+            `;
+            guitarList.appendChild(guitarCard);
+        });
+    }
+
+    // Fetch guitars when the page loads
+    window.onload = fetchGuitars;
+</script>
+
+</body>
+</html>

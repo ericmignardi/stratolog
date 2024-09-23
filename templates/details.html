@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .guitar-card {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .guitar-card p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+        .back-link, .edit-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            text-align: center;
+        }
+        .back-link:hover, .edit-link:hover {
+            text-decoration: underline;
+        }
+        .delete-button {
+            background-color: #FF4C4C;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-button:hover {
+            background-color: #D43F3F;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Guitar Details</h1>
+    <div class="guitar-card" id="guitar-card">
+        <h2>Loading...</h2>
+    </div>
+
+    <a href="/" class="back-link">Back to Guitar List</a>
+    <button class="edit-link" id="edit-button">Edit Guitar</button>
+    <button class="delete-button" id="delete-button">Delete Guitar</button>
+</div>
+
+<script>
+    const guitarId = new URLSearchParams(window.location.search).get('id');
+
+    async function fetchGuitar() {
+        try {
+            const response = await fetch(`/guitars/${guitarId}`);
+            if (!response.ok) {
+                throw new Error('Guitar not found');
+            }
+            const guitar = await response.json();
+            displayGuitar(guitar);
+        } catch (error) {
+            console.error('Error fetching guitar:', error);
+            document.getElementById('guitar-card').innerHTML = `<h2>Error: ${error.message}</h2>`;
+        }
+    }
+
+    function displayGuitar(guitar) {
+        const guitarCard = document.getElementById('guitar-card');
+        guitarCard.innerHTML = `
+            <h2>${guitar.brand} ${guitar.model}</h2>
+            <p>ID: ${guitar.id}</p>
+            <p>Year: ${guitar.year}</p>
+            <p>Image Path: ${guitar.imagePath}</p>
+        `;
+    }
+
+    document.getElementById('edit-button').onclick = function() {
+        window.location.href = `/edit?id=${guitarId}`; // Redirect to the edit page
+    };
+
+    document.getElementById('delete-button').onclick = async function() {
+        const confirmDelete = confirm('Are you sure you want to delete this guitar?');
+        if (confirmDelete) {
+            try {
+                const response = await fetch(`/guitars/${guitarId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete guitar');
+                }
+
+                alert('Guitar deleted successfully!');
+                window.location.href = '/'; // Redirect to the guitar list
+            } catch (error) {
+                console.error('Error deleting guitar:', error);
+                alert('Error deleting guitar: ' + error.message);
+            }
+        }
+    };
+
+    // Fetch the guitar details when the page loads
+    fetchGuitar();
+</script>
+
+</body>
+</html>

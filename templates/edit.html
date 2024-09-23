@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Guitar</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: auto;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Edit Guitar</h1>
+    <form id="edit-form">
+        <div class="form-group">
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" required>
+        </div>
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <input type="text" id="model" required>
+        </div>
+        <div class="form-group">
+            <label for="year">Year:</label>
+            <input type="text" id="year" required>
+        </div>
+        <div class="form-group">
+            <label for="imagePath">Image Path:</label>
+            <input type="text" id="imagePath" required>
+        </div>
+        <button type="submit">Update Guitar</button>
+    </form>
+</div>
+
+<script>
+    const guitarId = new URLSearchParams(window.location.search).get('id');
+
+    async function fetchGuitar() {
+        try {
+            const response = await fetch(`/guitars/${guitarId}`);
+            if (!response.ok) {
+                throw new Error('Guitar not found');
+            }
+            const guitar = await response.json();
+            populateForm(guitar);
+        } catch (error) {
+            console.error('Error fetching guitar:', error);
+            alert('Error fetching guitar: ' + error.message);
+        }
+    }
+
+    function populateForm(guitar) {
+        document.getElementById('brand').value = guitar.brand;
+        document.getElementById('model').value = guitar.model;
+        document.getElementById('year').value = guitar.year;
+        document.getElementById('imagePath').value = guitar.imagePath;
+    }
+
+    document.getElementById('edit-form').onsubmit = async function(event) {
+        event.preventDefault();
+
+        const updatedGuitar = {
+            brand: document.getElementById('brand').value,
+            model: document.getElementById('model').value,
+            year: document.getElementById('year').value,
+            imagePath: document.getElementById('imagePath').value,
+        };
+
+        try {
+            const response = await fetch(`/guitars/${guitarId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedGuitar)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update guitar');
+            }
+
+            alert('Guitar updated successfully!');
+            window.location.href = `/guitars/${guitarId}`; // Redirect to the details page
+        } catch (error) {
+            console.error('Error updating guitar:', error);
+            alert('Error updating guitar: ' + error.message);
+        }
+    };
+
+    // Fetch the guitar details when the page loads
+    fetchGuitar();
+</script>
+
+</body>
+</html>
