@@ -16,6 +16,7 @@ models.Base.metadata.create_all(bind=engine)
 templates = Jinja2Templates(directory="templates")
 
 
+
 # Input Validation *
 class GuitarBase(BaseModel):
     id: Optional[int] = None
@@ -23,6 +24,13 @@ class GuitarBase(BaseModel):
     model: str
     year: str
     imagePath: str
+
+class GuitarUpdateBase(BaseModel):
+    id: Optional[int] = None
+    brand: Optional[str]
+    model: Optional[str]
+    year: Optional[str]
+    imagePath: Optional[str]
 
 # Database Connection/Session Object *
 def get_db():
@@ -69,19 +77,24 @@ def readById(id: int):
 @app.post("/guitars", status_code=status.HTTP_201_CREATED)
 def create(guitar: GuitarBase):
     with Session() as session:
-        newGuitar = models.Guitar(**guitar.model_dump())
+        newGuitar = models.Guitar(**guitar.model_dump()) # REVIEW
         session.add(newGuitar)
         session.commit()
-    
+        return newGuitar
+
 @app.put("/guitars/{id}", status_code=status.HTTP_200_OK)
-def update(id: int, guitar: GuitarBase):
+def update(id: int, guitar: GuitarUpdateBase):
     with Session() as session:
-        guitar = session.query(Guitar).filter(Guitar.id == id).first()
-        if guitar is not None:
-            session.add()
+        updatedGuitar = session.query(Guitar).filter(Guitar.id == id).first()
+        if updatedGuitar is not None:
+            updatedGuitar.brand = guitar.brand
+            updatedGuitar.model = guitar.model
+            updatedGuitar.year = guitar.year
+            updatedGuitar.imagePath = guitar.imagePath
+            session.add(updatedGuitar)
             session.commit()
-            return 
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            return updatedGuitar
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"ID:{id} Invalid ID")
 
 @app.delete("/guitars/{id}", status_code=status.HTTP_200_OK)
 def delete(id: int):
@@ -96,4 +109,4 @@ def delete(id: int):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app)
+    uvicorn.run(app, reload=True)
