@@ -23,14 +23,16 @@ class GuitarBase(BaseModel):
     brand: str
     model: str
     year: str
-    imagePath: str
+    colour: str
+    type: str
 
 class GuitarUpdateBase(BaseModel):
     id: Optional[int] = None
     brand: Optional[str]
     model: Optional[str]
     year: Optional[str]
-    imagePath: Optional[str]
+    colour: Optional[str]
+    type: Optional[str]
 
 # Database Connection/Session Object *
 def get_db():
@@ -90,7 +92,8 @@ def update(id: int, guitar: GuitarUpdateBase):
             updatedGuitar.brand = guitar.brand
             updatedGuitar.model = guitar.model
             updatedGuitar.year = guitar.year
-            updatedGuitar.imagePath = guitar.imagePath
+            updatedGuitar.colour = guitar.colour
+            updatedGuitar.type = guitar.type
             session.add(updatedGuitar)
             session.commit()
             return updatedGuitar

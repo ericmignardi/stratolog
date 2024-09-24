@@ -101,7 +101,8 @@
     <input type="text" id="new-brand" placeholder="Brand" required>
     <input type="text" id="new-model" placeholder="Model" required>
     <input type="text" id="new-year" placeholder="Year" required>
-    <input type="text" id="new-imagePath" placeholder="Image Path" required>
+    <input type="text" id="new-colour" placeholder="Colour" required>
+    <input type="text" id="new-type" placeholder="Type" required>
     <button id="add-guitar-button">Add Guitar</button>
 </div>
 
@@ -146,7 +147,8 @@
             brand: document.getElementById('new-brand').value,
             model: document.getElementById('new-model').value,
             year: document.getElementById('new-year').value,
-            imagePath: document.getElementById('new-imagePath').value
+            colour: document.getElementById('new-colour').value,
+            type: document.getElementById('new-type').value
         };
 
         try {

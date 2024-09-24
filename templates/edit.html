@@ -71,8 +71,12 @@
             <input type="text" id="year" required>
         </div>
         <div class="form-group">
-            <label for="imagePath">Image Path:</label>
-            <input type="text" id="imagePath" required>
+            <label for="colour">Colour:</label>
+            <input type="text" id="colour" required>
+        </div>
+        <div class="form-group"></div>
+            <label for="type">Type:</label>
+            <input type="text" id="type" required>
         </div>
         <button type="submit">Update Guitar</button>
     </form>
@@ -99,7 +103,8 @@
         document.getElementById('brand').value = guitar.brand;
         document.getElementById('model').value = guitar.model;
         document.getElementById('year').value = guitar.year;
-        document.getElementById('imagePath').value = guitar.imagePath;
+        document.getElementById('colour').value = guitar.colour;
+        document.getElementById('type').value = guitar.type;
     }
 
     document.getElementById('edit-form').onsubmit = async function(event) {
@@ -109,7 +114,8 @@
             brand: document.getElementById('brand').value,
             model: document.getElementById('model').value,
             year: document.getElementById('year').value,
-            imagePath: document.getElementById('imagePath').value,
+            colour: document.getElementById('colour').value,
+            type: document.getElementById('type').value,
         };
 
         try {
