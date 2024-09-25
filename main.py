@@ -10,7 +10,7 @@ from database import engine, Session
 app = FastAPI(
     title="Stratolog",
     description="A web application to manage and document your guitar collection.",
-    version="0.1.0")
+    version="1.1.0")
 models.Base.metadata.create_all(bind=engine)
 
 templates = Jinja2Templates(directory="templates")
@@ -48,10 +48,6 @@ def get_db():
 @app.get("/")
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
-
-@app.get("/details")
-def details(request: Request):
-    return templates.TemplateResponse("details.html", {"request": request})
 
 @app.get("/edit")
 def edit(request: Request):

@@ -1,180 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guitar Collection</title>
+    <title>Stratolog - Catalog your gear!</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+            background: linear-gradient(to right, #f7f7f7, #dfe9f3);
         }
+
         h1 {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 2.5em;
-            color: #444;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
         }
-        .guitar-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
+
+        /* Custom card styles */
         .guitar-card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 15px;
-            padding: 15px;
-            text-align: center;
-            width: 250px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease-in-out;
         }
+
         .guitar-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
+
         .guitar-card h3 {
-            margin: 10px 0;
-            font-size: 1.5em;
-            color: #007BFF;
+            color: #007bff;
         }
-        .guitar-card button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+
+        .guitar-card .badge {
+            font-size: 0.9em;
+            padding: 0.4em 0.8em;
         }
-        .guitar-card button:hover {
-            background-color: #0056b3;
+
+        .guitar-card .fa-guitar {
+            color: #f39c12;
+            font-size: 2rem;
         }
+
+        /* Form customizations */
         .add-guitar {
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
+
         .add-guitar input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            margin-bottom: 15px;
         }
-        .add-guitar button {
-            width: 100%;
-            padding: 10px;
+
+        .btn-add {
             background-color: #28a745;
             color: white;
+            font-weight: bold;
+            text-transform: uppercase;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
             transition: background-color 0.3s;
         }
-        .add-guitar button:hover {
+
+        .btn-add:hover {
             background-color: #218838;
-        }
-        @media (max-width: 600px) {
-            .guitar-card {
-                width: 90%;
-            }
         }
     </style>
 </head>
+
 <body>
+    <div class="container my-5">
+        <!-- Main title -->
+        <h1 class="text-center text-primary mb-5 display-4">Guitar Collection</h1>
 
-<h1>Guitar Collection</h1>
+        <!-- Add Guitar Form -->
+        <div class="add-guitar mx-auto mb-5">
+            <h2 class="text-center text-success mb-4">Add a New Guitar</h2>
+            <form id="add-guitar-form">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="new-brand" placeholder="Brand" required>
+                    <label for="new-brand">Brand</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="new-model" placeholder="Model" required>
+                    <label for="new-model">Model</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="new-year" placeholder="Year" required>
+                    <label for="new-year">Year</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="new-colour" placeholder="Colour" required>
+                    <label for="new-colour">Colour</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="new-type" placeholder="Type" required>
+                    <label for="new-type">Type</label>
+                </div>
+                <button type="button" id="add-guitar-button" class="btn btn-add w-100 py-3">
+                    <i class="fas fa-plus"></i> Add Guitar
+                </button>
+            </form>
+        </div>
 
-<div class="add-guitar">
-    <h2>Add New Guitar</h2>
-    <input type="text" id="new-brand" placeholder="Brand" required>
-    <input type="text" id="new-model" placeholder="Model" required>
-    <input type="text" id="new-year" placeholder="Year" required>
-    <input type="text" id="new-colour" placeholder="Colour" required>
-    <input type="text" id="new-type" placeholder="Type" required>
-    <button id="add-guitar-button">Add Guitar</button>
-</div>
+        <!-- Guitar List -->
+        <div class="row" id="guitar-list">
+            <!-- Guitar cards will be inserted here dynamically -->
+        </div>
+    </div>
 
-<div class="guitar-list" id="guitar-list"></div>
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    async function fetchGuitars() {
-        try {
-            const response = await fetch('/guitars');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    <script>
+        async function fetchGuitars() {
+            try {
+                const response = await fetch('/guitars');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const guitars = await response.json();
+                displayGuitars(guitars);
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
             }
-            const guitars = await response.json();
-            displayGuitars(guitars);
-        } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
         }
-    }
 
-    function displayGuitars(guitars) {
-        const guitarList = document.getElementById('guitar-list');
-        guitarList.innerHTML = ''; // Clear previous content
+        function displayGuitars(guitars) {
+            const guitarList = document.getElementById('guitar-list');
+            guitarList.innerHTML = ''; // Clear previous content
 
-        guitars.forEach(guitar => {
-            const guitarCard = document.createElement('div');
-            guitarCard.className = 'guitar-card';
-            guitarCard.innerHTML = `
-                <h3>${guitar.brand} ${guitar.model}</h3>
-                <p>ID: ${guitar.id}</p>
-                <button onclick="viewGuitar(${guitar.id})">View Details</button>
-            `;
-            guitarList.appendChild(guitarCard);
-        });
-    }
+            guitars.forEach(guitar => {
+                const guitarCard = document.createElement('div');
+                guitarCard.className = 'guitar-card col-md-4 col-lg-3 mb-4';
+                guitarCard.innerHTML = `
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-guitar mb-3"></i>
+                            <h3 class="card-title">${guitar.brand} ${guitar.model}</h3>
+                            <span class="badge bg-secondary mb-2">${guitar.year}</span>
+                            <span class="badge bg-info mb-2">${guitar.colour}</span>
+                            <span class="badge bg-warning mb-2">${guitar.type}</span>
+                            <p class="card-text">ID: ${guitar.id}</p>
+                            <button class="btn btn-primary w-100 mb-2" onclick="viewGuitar(${guitar.id})">
+                                Edit
+                            </button>
+                            <button class="btn btn-danger w-100" onclick="deleteGuitar(${guitar.id})">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                guitarList.appendChild(guitarCard);
+            });
+        }
 
-    function viewGuitar(id) {
-        window.location.href = `details?id=${id}`; // Redirect to details page
-    }
+        function viewGuitar(id) {
+            window.location.href = `edit?id=${id}`; // Redirect to details page
+        }
 
-    document.getElementById('add-guitar-button').onclick = async function() {
-        const newGuitar = {
-            brand: document.getElementById('new-brand').value,
-            model: document.getElementById('new-model').value,
-            year: document.getElementById('new-year').value,
-            colour: document.getElementById('new-colour').value,
-            type: document.getElementById('new-type').value
+        async function deleteGuitar(id) {
+            if (confirm('Are you sure you want to delete this guitar?')) {
+                try {
+                    const response = await fetch(`/guitars/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to delete guitar');
+                    }
+
+                    alert('Guitar deleted successfully!');
+                    fetchGuitars(); // Refresh the list of guitars
+                } catch (error) {
+                    console.error('Error deleting guitar:', error);
+                    alert('Error deleting guitar: ' + error.message);
+                }
+            }
+        }
+
+        document.getElementById('add-guitar-button').onclick = async function () {
+            const newGuitar = {
+                brand: document.getElementById('new-brand').value,
+                model: document.getElementById('new-model').value,
+                year: document.getElementById('new-year').value,
+                colour: document.getElementById('new-colour').value,
+                type: document.getElementById('new-type').value
+            };
+
+            try {
+                const response = await fetch('/guitars', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newGuitar)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to add guitar');
+                }
+
+                alert('Guitar added successfully!');
+                fetchGuitars(); // Refresh the list of guitars
+            } catch (error) {
+                console.error('Error adding guitar:', error);
+                alert('Error adding guitar: ' + error.message);
+            }
         };
 
-        try {
-            const response = await fetch('/guitars', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newGuitar)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add guitar');
-            }
-
-            alert('Guitar added successfully!');
-            fetchGuitars(); // Refresh the list of guitars
-        } catch (error) {
-            console.error('Error adding guitar:', error);
-            alert('Error adding guitar: ' + error.message);
-        }
-    };
-
-    // Fetch guitars when the page loads
-    window.onload = fetchGuitars;
-</script>
+        // Fetch guitars when the page loads
+        window.onload = fetchGuitars;
+    </script>
 
 </body>
+
 </html>

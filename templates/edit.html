@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Guitar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
+            background: linear-gradient(to right, #f7f7f7, #dfe9f3);
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
             color: #333;
         }
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: auto;
             background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
             color: #007BFF;
+            margin-bottom: 20px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -30,29 +32,39 @@
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
         input[type="text"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #007BFF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
         button {
-            padding: 10px;
+            padding: 12px;
             background-color: #007BFF;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
             display: block;
             margin: auto;
+            font-weight: bold;
         }
         button:hover {
             background-color: #0056b3;
+            transform: translateY(-2px);
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -74,7 +86,7 @@
             <label for="colour">Colour:</label>
             <input type="text" id="colour" required>
         </div>
-        <div class="form-group"></div>
+        <div class="form-group">
             <label for="type">Type:</label>
             <input type="text" id="type" required>
         </div>
