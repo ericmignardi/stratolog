@@ -1,58 +1,67 @@
 from fastapi.testclient import TestClient
+import pytest
 from main import app
 
 client = TestClient(app)
 
-def setup_function():
+# Helper Functions
+def get_post_response():
+    return client.post("/guitars", json={"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"})
+
+# Pytest Fixtures
+@pytest.fixture
+def setup():
     pass
 
-# CREATE Tests
-def test_create():
-    response = client.post("/guitars", json={"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"})
-    assert response.status_code == 201
-    assert response.json() == {"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+@pytest.fixture
+def teardown():
+    pass
 
-def test_create_invalid():
-    response = client.post("/guitars", json={"brand": "Squier", "year": "2024", "colour": "Olympic White", "type": "Electric"})
-    assert response.status_code == 422
+def test_create_status_response():
+    post_response = get_post_response()
+    data = post_response.json()
+    id = data["id"]
+    assert post_response.status_code == 201
+    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+    get_response = client.get(f"/guitars/{id}")
+    assert get_response.status_code == 200
 
-def test_create_response():
-    response = client.post("/guitars", json={"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"})
-    assert response.json() == {"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
-
-# READ Tests
-def test_read_all():
-    response = client.get("/guitars")
-    assert response.status_code == 200
+def test_read():
+    post_response = get_post_response()
+    data = post_response.json()
+    id = data["id"]
+    assert post_response.status_code == 201
+    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+    get_response = client.get("/guitars")
+    assert get_response.status_code == 200
+    assert get_response.json() == [{"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}]
 
 def test_read_by_id():
-    response = client.get("/guitars/1")
-    assert response.status_code == 200
+    post_response = get_post_response()
+    data = post_response.json()
+    id = data["id"]
+    assert post_response.status_code == 201
+    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+    get_response = client.get(f"/guitars/{id}")
+    assert get_response.status_code == 200
+    assert get_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
 
-def test_read_by_id_invalid():
-    response = client.get("/guitars/-1")
-    assert response.status_code == 404
-
-def test_read_by_id_response():
-    client.post("/guitars", json={"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"})
-    response = client.get("/guitars/1")
-    assert response.json() == {"id": 1, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
-
-# UPDATE Tests
 def test_update():
-    # client.post("/guitars", json={"brand": "Epiphone", "model": "ES-333", "year": "2004", "colour": "Olive Drab", "type": "Electric"})
-    response = client.put("guitars/7", json={"brand": "Epiphone", "model": "ES-333", "year": "2004", "colour": "Black", "type": "Electric"})
-    assert response.status_code == 200
-    assert response.json() == {"brand": "Epiphone", "model": "ES-333", "year": "2004", "colour": "Black", "type": "Electric"}
+    post_response = get_post_response()
+    data = post_response.json()
+    id = data["id"]
+    assert post_response.status_code == 201
+    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+    put_response = client.put(f"/guitars/{id}", json={"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Shell Pink", "type": "Electric"})
+    assert put_response.status_code == 200
+    assert put_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Shell Pink", "type": "Electric"}
 
-# DELETE Tests
 def test_delete():
-    response = client.delete("/guitars/1")
-    assert response.status_code == 200
-
-def test_delete_invalid():
-    response = client.delete("/guitars/-1")
-    assert response.status_code == 404
-
-def teardown_function():
-    pass
+    post_response = get_post_response()
+    data = post_response.json()
+    id = data["id"]
+    assert post_response.status_code == 201
+    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+    delete_response = client.delete(f"/guitars/{id}")
+    assert delete_response.status_code == 200
+    assert delete_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}

@@ -27,7 +27,6 @@ class GuitarBase(BaseModel):
     type: str
 
 class GuitarUpdateBase(BaseModel):
-    # id: Optional[int] = None
     brand: Optional[str]
     model: Optional[str]
     year: Optional[str]
@@ -53,7 +52,7 @@ def edit(request: Request):
 
 # JSON Routes
 @app.get("/guitars", status_code=status.HTTP_200_OK, response_model=list[GuitarBase], tags=["Guitar"], summary="Read All Guitars", description="Retrieve a list of guitars.")
-def readAll():
+def readAll() -> list[GuitarBase]:
     with Session() as session:
         guitars = session.query(Guitar).all()
         if guitars is not None:
@@ -61,23 +60,23 @@ def readAll():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     
 @app.get("/guitars/{id}", status_code=status.HTTP_200_OK, response_model=GuitarBase, tags=["Guitar"], summary="Read Single Guitar", description="Retrieve a single guitar.")
-def readById(id: int):
+def readById(id: int) -> GuitarBase:
     with Session() as session:
-        guitar = session.query(Guitar).filter(Guitar.id == id).first() 
+        guitar = session.query(Guitar).filter(Guitar.id == id).first()
         if guitar is not None:
             return guitar
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"ID:{id} - Invalid ID")
 
 @app.post("/guitars", status_code=status.HTTP_201_CREATED, response_model=GuitarBase, tags=["Guitar"], summary="Create Guitar", description="Create a new guitar.")
-def create(guitar: GuitarBase):
+def create(guitar: GuitarBase) -> GuitarBase:
     with Session() as session:
         newGuitar = models.Guitar(**guitar.model_dump())
         session.add(newGuitar)
         session.commit()
-        return guitar
+        return newGuitar
 
 @app.put("/guitars/{id}", status_code=status.HTTP_200_OK, response_model=GuitarBase, tags=["Guitar"], summary="Update Guitar", description="Update an existing guitar.")
-def update(id: int, guitar: GuitarUpdateBase):
+def update(id: int, guitar: GuitarUpdateBase) -> GuitarBase:
     with Session() as session:
         updatedGuitar = session.query(Guitar).filter(Guitar.id == id).first()
         if updatedGuitar is not None:
@@ -88,11 +87,11 @@ def update(id: int, guitar: GuitarUpdateBase):
             updatedGuitar.type = guitar.type
             session.add(updatedGuitar)
             session.commit()
-            return guitar
+            return updatedGuitar
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"ID:{id} - Invalid ID")
 
 @app.delete("/guitars/{id}", status_code=status.HTTP_200_OK, response_model=GuitarBase, tags=["Guitar"], summary="Delete Guitar", description="Delete an existing guitar.")
-def delete(id: int):
+def delete(id: int) -> GuitarBase:
     with Session() as session:
         guitar = session.query(Guitar).filter(Guitar.id == id).first()
         if guitar is not None:
