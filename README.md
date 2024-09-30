@@ -9,3 +9,6 @@ Built using FastAPI, Uvicorn & SQLAlchemy
 ## Authors
 
 - [@emignardi](https://github.com/emignardi)
+
+![screenshot](/resources/index.png)
+![screenshot](/resources/edit.png)
