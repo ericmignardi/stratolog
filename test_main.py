@@ -17,15 +17,6 @@ def setup():
 def teardown():
     pass
 
-def test_create_status_response():
-    post_response = get_post_response()
-    data = post_response.json()
-    id = data["id"]
-    assert post_response.status_code == 201
-    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
-    get_response = client.get(f"/guitars/{id}")
-    assert get_response.status_code == 200
-
 def test_read():
     post_response = get_post_response()
     data = post_response.json()
@@ -35,6 +26,15 @@ def test_read():
     get_response = client.get("/guitars")
     assert get_response.status_code == 200
     assert get_response.json() == [{"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}]
+
+def test_create_status_response():
+    post_response = get_post_response()
+    data = post_response.json()
+    id = data["id"]
+    assert post_response.status_code == 201
+    assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+    get_response = client.get(f"/guitars/{id}")
+    assert get_response.status_code == 200
 
 def test_read_by_id():
     post_response = get_post_response()

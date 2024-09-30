@@ -57,8 +57,7 @@ def readAll(db: Session = Depends(get_db)) -> list[GuitarBase]:
     guitars = db.query(Guitar).all()
     if guitars is not None:
         return guitars
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-        
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) 
     
 @app.get("/guitars/{id}", status_code=status.HTTP_200_OK, response_model=GuitarBase, tags=["Guitar"], summary="Read Single Guitar", description="Retrieve a single guitar.")
 def readById(id: int, db: Session = Depends(get_db)) -> GuitarBase:
