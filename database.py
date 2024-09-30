@@ -5,4 +5,4 @@ engine = create_engine("mysql+mysqlconnector://root:password@localhost:3306/Stra
 
 Base = declarative_base()
 
-SessionLocal = sessionmaker(bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
