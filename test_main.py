@@ -19,12 +19,6 @@ def override_get_db():
 
 app.dependency_overrides[get_db] = override_get_db
 
-def setup():
-    Base.metadata.create_all(bind=engine)
-
-def teardown():
-    Base.metadata.drop_all(bind=engine)
-
 def setup_post():
     return client.post("/guitars", json={"brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"})
 
@@ -77,3 +71,9 @@ def test_delete():
     delete_response = client.delete(f"/guitars/{id}")
     assert delete_response.status_code == 200
     assert delete_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
+
+# def setup():
+#     Base.metadata.create_all(bind=engine)
+
+# def teardown():
+#     Base.metadata.drop_all(bind=engine)
