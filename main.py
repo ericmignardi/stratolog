@@ -20,7 +20,7 @@ def startup():
 
 templates = Jinja2Templates(directory="templates")
 
-# Pydantic Validation (type hints, data validation, serialization)
+# Pydantic Validation (IDE Type Hints, Data Validation, Serialization)
 class GuitarBase(BaseModel):
     id: Optional[int] = None
     brand: str
