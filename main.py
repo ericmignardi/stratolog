@@ -14,7 +14,9 @@ app = FastAPI(
     version="1.0.0",
     openapi_url="/openapi.json")
 
-models.Base.metadata.create_all(bind=engine)
+@app.on_event("startup")
+def startup():
+    models.Base.metadata.create_all(bind=engine)
 
 templates = Jinja2Templates(directory="templates")
 

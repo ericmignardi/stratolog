@@ -35,6 +35,7 @@ def test_create_status_response():
     assert post_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
     get_response = client.get(f"/guitars/{id}")
     assert get_response.status_code == 200
+    assert get_response.json() == {"id": id, "brand": "Squier", "model": "Affinity Starcaster Deluxe", "year": "2024", "colour": "Olympic White", "type": "Electric"}
 
 def test_read_by_id():
     post_response = get_post_response()
