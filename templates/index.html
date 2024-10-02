@@ -26,12 +26,11 @@
                 </tr>
             </thead>
             <tbody id="guitarTableBody">
-                <!-- Guitar entries will be populated here by JavaScript -->
+                
             </tbody>
         </table>
     </div>
 
-    <!-- Add Guitar Modal -->
     <div class="modal fade" id="addGuitarModal" tabindex="-1" role="dialog" aria-labelledby="addGuitarModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -70,7 +69,6 @@
         </div>
     </div>
 
-    <!-- Edit Guitar Modal -->
     <div class="modal fade" id="editGuitarModal" tabindex="-1" role="dialog" aria-labelledby="editGuitarModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -111,7 +109,6 @@
     </div>
 
     <script>
-        // Fetch guitars and display in the table
         async function fetchGuitars() {
             const response = await fetch('/guitars');
             const guitars = await response.json();
@@ -135,7 +132,6 @@
             });
         }
 
-        // Add a new guitar
         document.getElementById('addGuitarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const newGuitar = {
@@ -154,7 +150,6 @@
             fetchGuitars();
         });
 
-        // Edit a guitar
         async function editGuitar(id) {
             const response = await fetch(`/guitars/${id}`);
             const guitar = await response.json();
@@ -168,7 +163,6 @@
             $('#editGuitarModal').modal('show');
         }
 
-        // Save edited guitar
         document.getElementById('editGuitarForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('editGuitarId').value;
@@ -188,13 +182,11 @@
             fetchGuitars();
         });
 
-        // Delete a guitar
         async function deleteGuitar(id) {
             await fetch(`/guitars/${id}`, { method: 'DELETE' });
             fetchGuitars();
         }
 
-        // Initial fetch
         fetchGuitars();
     </script>
 </body>
