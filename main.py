@@ -49,10 +49,6 @@ def get_db():
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get("/edit", tags=["Template"], summary="Edit Page", description="This route returns the edit page template")
-def edit(request: Request):
-    return templates.TemplateResponse("edit.html", {"request": request})
-
 # JSON Routes
 @app.get("/guitars", status_code=status.HTTP_200_OK, response_model=list[GuitarBase], tags=["Guitar"], summary="Read All Guitars", description="Retrieve a list of guitars.")
 def readAll(db: Session = Depends(get_db)) -> list[GuitarBase]:

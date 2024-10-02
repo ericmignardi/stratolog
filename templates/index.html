@@ -1,208 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stratolog - Catalog your gear!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(to right, #f7f7f7, #dfe9f3);
-        }
-
-        h1 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: bold;
-        }
-
-        .guitar-card {
-            transition: all 0.3s ease-in-out;
-        }
-
-        .guitar-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .guitar-card h3 {
-            color: #007bff;
-        }
-
-        .guitar-card .badge {
-            font-size: 0.9em;
-            padding: 0.4em 0.8em;
-        }
-
-        .guitar-card .fa-guitar {
-            color: #f39c12;
-            font-size: 2rem;
-        }
-
-        .add-guitar {
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .add-guitar input {
-            border: 1px solid #ccc;
-            margin-bottom: 15px;
-        }
-
-        .btn-add {
-            background-color: #28a745;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        .btn-add:hover {
-            background-color: #218838;
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-    <div class="container my-5">
-        <h1 class="text-center text-primary mb-5 display-4">Guitar Collection</h1>
-        <div class="add-guitar mx-auto mb-5">
-            <h2 class="text-center text-success mb-4">Add a New Guitar</h2>
-            <form id="add-guitar-form">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="new-brand" placeholder="Brand" required>
-                    <label for="new-brand">Brand</label>
+    <div class="container">
+        <h1 class="mt-4">Guitar Collection</h1>
+        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addGuitarModal">Add New Guitar</button>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Colour</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="guitarTableBody">
+                <!-- Guitar entries will be populated here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Guitar Modal -->
+    <div class="modal fade" id="addGuitarModal" tabindex="-1" role="dialog" aria-labelledby="addGuitarModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addGuitarModalLabel">Add New Guitar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="new-model" placeholder="Model" required>
-                    <label for="new-model">Model</label>
+                <div class="modal-body">
+                    <form id="addGuitarForm">
+                        <div class="form-group">
+                            <label for="brand">Brand</label>
+                            <input type="text" class="form-control" id="brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Model</label>
+                            <input type="text" class="form-control" id="model" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="text" class="form-control" id="year" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="colour">Colour</label>
+                            <input type="text" class="form-control" id="colour" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <input type="text" class="form-control" id="type" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Guitar</button>
+                    </form>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="new-year" placeholder="Year" required>
-                    <label for="new-year">Year</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="new-colour" placeholder="Colour" required>
-                    <label for="new-colour">Colour</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="new-type" placeholder="Type" required>
-                    <label for="new-type">Type</label>
-                </div>
-                <button type="button" id="add-guitar-button" class="btn btn-add w-100 py-3">
-                    <i class="fas fa-plus"></i> Add Guitar
-                </button>
-            </form>
-        </div>
-        <div class="row" id="guitar-list">
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Edit Guitar Modal -->
+    <div class="modal fade" id="editGuitarModal" tabindex="-1" role="dialog" aria-labelledby="editGuitarModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editGuitarModalLabel">Edit Guitar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editGuitarForm">
+                        <input type="hidden" id="editGuitarId">
+                        <div class="form-group">
+                            <label for="editBrand">Brand</label>
+                            <input type="text" class="form-control" id="editBrand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editModel">Model</label>
+                            <input type="text" class="form-control" id="editModel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editYear">Year</label>
+                            <input type="text" class="form-control" id="editYear" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editColour">Colour</label>
+                            <input type="text" class="form-control" id="editColour" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editType">Type</label>
+                            <input type="text" class="form-control" id="editType" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Fetch guitars and display in the table
         async function fetchGuitars() {
-            try {
-                const response = await fetch('/guitars');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const guitars = await response.json();
-                displayGuitars(guitars);
-            } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-            }
-        }
-
-        function displayGuitars(guitars) {
-            const guitarList = document.getElementById('guitar-list');
-            guitarList.innerHTML = '';
-
+            const response = await fetch('/guitars');
+            const guitars = await response.json();
+            const tableBody = document.getElementById('guitarTableBody');
+            tableBody.innerHTML = '';
             guitars.forEach(guitar => {
-                const guitarCard = document.createElement('div');
-                guitarCard.className = 'guitar-card col-md-4 col-lg-3 mb-4';
-                guitarCard.innerHTML = `
-                    <div class="card h-100 text-center shadow-sm">
-                        <div class="card-body">
-                            <i class="fas fa-guitar mb-3"></i>
-                            <h3 class="card-title">${guitar.brand} ${guitar.model}</h3>
-                            <span class="badge bg-secondary mb-2">${guitar.year}</span>
-                            <span class="badge bg-info mb-2">${guitar.colour}</span>
-                            <span class="badge bg-warning mb-2">${guitar.type}</span>
-                            <p class="card-text">ID: ${guitar.id}</p>
-                            <button class="btn btn-primary w-100 mb-2" onclick="viewGuitar(${guitar.id})">
-                                Edit
-                            </button>
-                            <button class="btn btn-danger w-100" onclick="deleteGuitar(${guitar.id})">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${guitar.id}</td>
+                    <td>${guitar.brand}</td>
+                    <td>${guitar.model}</td>
+                    <td>${guitar.year}</td>
+                    <td>${guitar.colour}</td>
+                    <td>${guitar.type}</td>
+                    <td>
+                        <button class="btn btn-warning" onclick="editGuitar(${guitar.id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteGuitar(${guitar.id})">Delete</button>
+                    </td>
                 `;
-                guitarList.appendChild(guitarCard);
+                tableBody.appendChild(row);
             });
         }
 
-        function viewGuitar(id) {
-            window.location.href = `edit?id=${id}`;
-        }
-
-        async function deleteGuitar(id) {
-            if (confirm('Are you sure you want to delete this guitar?')) {
-                try {
-                    const response = await fetch(`/guitars/${id}`, {
-                        method: 'DELETE',
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to delete guitar');
-                    }
-
-                    alert('Guitar deleted successfully!');
-                    fetchGuitars();
-                } catch (error) {
-                    console.error('Error deleting guitar:', error);
-                    alert('Error deleting guitar: ' + error.message);
-                }
-            }
-        }
-
-        document.getElementById('add-guitar-button').onclick = async function () {
+        // Add a new guitar
+        document.getElementById('addGuitarForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             const newGuitar = {
-                brand: document.getElementById('new-brand').value,
-                model: document.getElementById('new-model').value,
-                year: document.getElementById('new-year').value,
-                colour: document.getElementById('new-colour').value,
-                type: document.getElementById('new-type').value
+                brand: document.getElementById('brand').value,
+                model: document.getElementById('model').value,
+                year: document.getElementById('year').value,
+                colour: document.getElementById('colour').value,
+                type: document.getElementById('type').value,
             };
-            try {
-                const response = await fetch('/guitars', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(newGuitar)
-                });
+            await fetch('/guitars', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newGuitar),
+            });
+            $('#addGuitarModal').modal('hide');
+            fetchGuitars();
+        });
 
-                if (!response.ok) {
-                    throw new Error('Failed to add guitar');
-                }
+        // Edit a guitar
+        async function editGuitar(id) {
+            const response = await fetch(`/guitars/${id}`);
+            const guitar = await response.json();
+            document.getElementById('editGuitarId').value = guitar.id;
+            document.getElementById('editBrand').value = guitar.brand;
+            document.getElementById('editModel').value = guitar.model;
+            document.getElementById('editYear').value = guitar.year;
+            document.getElementById('editColour').value = guitar.colour;
+            document.getElementById('editType').value = guitar.type;
 
-                alert('Guitar added successfully!');
-                fetchGuitars();
-            } catch (error) {
-                console.error('Error adding guitar:', error);
-                alert('Error adding guitar: ' + error.message);
-            }
-        };
+            $('#editGuitarModal').modal('show');
+        }
 
-        window.onload = fetchGuitars;
+        // Save edited guitar
+        document.getElementById('editGuitarForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editGuitarId').value;
+            const updatedGuitar = {
+                brand: document.getElementById('editBrand').value,
+                model: document.getElementById('editModel').value,
+                year: document.getElementById('editYear').value,
+                colour: document.getElementById('editColour').value,
+                type: document.getElementById('editType').value,
+            };
+            await fetch(`/guitars/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedGuitar),
+            });
+            $('#editGuitarModal').modal('hide');
+            fetchGuitars();
+        });
+
+        // Delete a guitar
+        async function deleteGuitar(id) {
+            await fetch(`/guitars/${id}`, { method: 'DELETE' });
+            fetchGuitars();
+        }
+
+        // Initial fetch
+        fetchGuitars();
     </script>
-
 </body>
-
 </html>

@@ -2,7 +2,7 @@
 
 This application was built for the Final Project of CST8333 Programming Language Research Project. The purpose of this project was to gain experience using an unfamiliar programming language. It allows users to document their personal guitar collection for better management.
 
-Built using FastAPI, Uvicorn & SQLAlchemy
+Built using FastAPI, SQLAlchemy, Pydantic & TestClient
 
 <i>CST8277 Enterprise Application Programming</i>
 
@@ -11,4 +11,4 @@ Built using FastAPI, Uvicorn & SQLAlchemy
 - [@emignardi](https://github.com/emignardi)
 
 ![screenshot](/resources/index.png)
-![screenshot](/resources/edit.png)
+![screenshot](/resources/add.png)
