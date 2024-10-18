@@ -11,4 +11,5 @@ Built using FastAPI, SQLAlchemy, Pydantic & TestClient
 - [@emignardi](https://github.com/emignardi)
 
 ![screenshot](/resources/index.png)
-![screenshot](/resources/add.png)
+![screenshot](/resources/create.png)
+![screenshot](/resources/update.png)
