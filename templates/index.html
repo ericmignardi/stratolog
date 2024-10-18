@@ -3,32 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stratolog - Catalog your gear!</title>
+    <title>Stratolog - Catalog Your Gear!</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: #e9ecef;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table thead th {
+            background-color: #4a90e2;
+            color: white;
+            font-weight: bold;
+        }
+        .modal-header {
+            background-color: #4a90e2;
+            color: white;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .btn-primary {
+            background-color: #4a90e2;
+            border-color: #4a90e2;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #357ABD;
+            border-color: #357ABD;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .btn-action {
+            width: 100%;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="mt-4">Guitar Collection</h1>
+    <div class="container mt-5">
+        <h1>Guitar Collection</h1>
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addGuitarModal">Add New Guitar</button>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Year</th>
-                    <th>Colour</th>
-                    <th>Type</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="guitarTableBody">
-                
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Year</th>
+                        <th>Colour</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="guitarTableBody">
+                    
+                </tbody>
+            </table>
+        </div>
+        <footer class="footer">
+            <p>&copy; 2024 Stratolog. All rights reserved.</p>
+        </footer>
     </div>
 
     <div class="modal fade" id="addGuitarModal" tabindex="-1" role="dialog" aria-labelledby="addGuitarModalLabel" aria-hidden="true">
@@ -52,7 +108,7 @@
                         </div>
                         <div class="form-group">
                             <label for="year">Year</label>
-                            <input type="text" class="form-control" id="year" required>
+                            <input type="number" class="form-control" id="year" required>
                         </div>
                         <div class="form-group">
                             <label for="colour">Colour</label>
@@ -91,7 +147,7 @@
                         </div>
                         <div class="form-group">
                             <label for="editYear">Year</label>
-                            <input type="text" class="form-control" id="editYear" required>
+                            <input type="number" class="form-control" id="editYear" required>
                         </div>
                         <div class="form-group">
                             <label for="editColour">Colour</label>
@@ -124,8 +180,8 @@
                     <td>${guitar.colour}</td>
                     <td>${guitar.type}</td>
                     <td>
-                        <button class="btn btn-warning" onclick="editGuitar(${guitar.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteGuitar(${guitar.id})">Delete</button>
+                        <button class="btn btn-warning btn-sm btn-action" onclick="editGuitar(${guitar.id})">Edit</button>
+                        <button class="btn btn-danger btn-sm btn-action" onclick="deleteGuitar(${guitar.id})">Delete</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
