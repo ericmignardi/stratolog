@@ -93,6 +93,3 @@ def delete(id: int, db: Session = Depends(get_db)) -> GuitarBase:
         db.commit()
         return guitar
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"ID:{id} - Invalid ID")
-    
-if __name__ == "__main__":
-    uvicorn.run(app)
