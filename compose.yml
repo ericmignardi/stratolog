@@ -9,6 +9,7 @@ services:
       - ./data:/var/lib/mysql # Bind Mount
   app:
     container_name: app
+    image: app
     build:
       context: .
       dockerfile: Dockerfile
