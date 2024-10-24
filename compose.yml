@@ -1,0 +1,30 @@
+services:
+  db:
+    container_name: db
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=Stratolog
+  webapp:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    command: sh -c "sleep 15s ; uvicorn main:app --host 0.0.0.0 --port 80"
+
+# Services, Volumes, Networks
+## Service Name
+### container_name:
+### build:
+#### context:
+#### dockerfile:
+### ports:
+### depends_on
+### image:
+### command:
+### environment
+### volumes
