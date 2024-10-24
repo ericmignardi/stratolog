@@ -5,8 +5,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=Stratolog
-    volumes:
-      - .
   webapp:
     container_name: app
     build:
