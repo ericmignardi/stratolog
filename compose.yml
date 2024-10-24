@@ -7,7 +7,7 @@ services:
       - MYSQL_DATABASE=Stratolog
     volumes:
       - ./data:/var/lib/mysql # Bind Mount
-  webapp:
+  app:
     container_name: app
     build:
       context: .
