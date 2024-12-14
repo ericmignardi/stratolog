@@ -6,10 +6,6 @@ Built using FastAPI, SQLAlchemy, Pydantic & TestClient
 
 <i>CST8277 Enterprise Application Programming</i>
 
-## Authors
-
-- [@emignardi](https://github.com/emignardi)
-
 ![screenshot](/resources/index.png)
 ![screenshot](/resources/create.png)
 ![screenshot](/resources/update.png)
